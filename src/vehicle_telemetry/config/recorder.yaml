@@ -1,0 +1,17 @@
+recording:
+  output_directory: /tmp/rosbags/vehicle_telemetry
+  storage_id: sqlite3
+  serialization_format: cdr
+  compression:
+    enabled: true
+    format: zstd
+    queue_size: 1
+  max_bag_size_mb: 4096
+  max_bag_duration_s: 600
+  all_topics: false
+  include_topics:
+    - /vehicle/can/raw
+    - /vehicle/imu/data
+    - /vehicle/gps/fix
+    - /vehicle/wheel_speed
+    - /vehicle/camera/front/image_raw

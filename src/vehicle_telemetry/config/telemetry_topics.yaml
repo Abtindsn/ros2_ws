@@ -1,0 +1,33 @@
+topics:
+  can:
+    topic: /vehicle/can/raw
+    type: can_msgs/msg/Frame
+    qos:
+      reliability: reliable
+      durability: volatile
+  imu:
+    topic: /vehicle/imu/data
+    type: sensor_msgs/msg/Imu
+    qos:
+      reliability: reliable
+      durability: volatile
+  gps:
+    topic: /vehicle/gps/fix
+    type: sensor_msgs/msg/NavSatFix
+    qos:
+      reliability: reliable
+      durability: volatile
+  wheel_speed:
+    topic: /vehicle/wheel_speed
+    type: std_msgs/msg/Float32MultiArray
+    qos:
+      reliability: reliable
+      durability: volatile
+  camera_front:
+    topic: /vehicle/camera/front/image_raw
+    type: sensor_msgs/msg/Image
+    qos:
+      reliability: best_effort
+      history: keep_last
+      depth: 5
+      durability: volatile
