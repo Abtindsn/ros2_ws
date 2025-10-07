@@ -1,12 +1,22 @@
 from __future__ import annotations
 
 import threading
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
+import numpy as np
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 
 from vehicle_telemetry.ingestors.base import TelemetryIngestor
+
+if TYPE_CHECKING:  # pragma: no cover - type hints only
+    from numpy.typing import NDArray
+
+    import numpy as _np
+
+    U8Img = np.ndarray
+else:  # pragma: no cover - runtime stub
+    U8Img = object
 
 try:
     import cv2  # type: ignore
@@ -18,6 +28,8 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - optional dependency
     CvBridge = None
 
+_HAVE_CV = bool(cv2) and CvBridge is not None
+
 
 class CameraIngestor(TelemetryIngestor):
     """Camera ingestor that streams frames into ROS2."""
@@ -27,12 +39,12 @@ class CameraIngestor(TelemetryIngestor):
         self._device_index = node.declare_parameter("camera.device_index", 0).value
         self._frame_id = node.declare_parameter("camera.frame_id", "camera_front").value
         self._frame_rate = node.declare_parameter("camera.frame_rate", 15.0).value
-        self._bridge = CvBridge() if CvBridge else None
+        self._bridge = CvBridge() if _HAVE_CV else None
         self._capture: Optional["cv2.VideoCapture"] = None
         self._thread: Optional[threading.Thread] = None
         self._stop_event = threading.Event()
 
-        if not self._use_simulated and cv2 and self._bridge:
+        if not self._use_simulated and _HAVE_CV and self._bridge:
             self._capture = cv2.VideoCapture(self._device_index)
             if not self._capture.isOpened():
                 self._node.get_logger().warning(
@@ -71,12 +83,6 @@ class CameraIngestor(TelemetryIngestor):
 
     def _publish_simulated_frame(self) -> None:
         height, width = 480, 640
-        try:
-            import numpy as np  # type: ignore
-        except ModuleNotFoundError:
-            self._node.get_logger().warning("numpy missing; skipping simulated camera frame.")
-            return
-
         gradient = np.linspace(0, 255, width, dtype=np.uint8)
         frame = np.tile(gradient, (height, 1))
         frame = np.stack([frame, np.flipud(frame), frame], axis=2)

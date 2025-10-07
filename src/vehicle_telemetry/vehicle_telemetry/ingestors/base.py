@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 from rclpy.node import Node
-from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
+from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
 from rosidl_runtime_py.utilities import get_message
 
 from vehicle_telemetry.utils.config_loader import QoSConfig, TopicConfig
@@ -11,7 +11,14 @@ from vehicle_telemetry.utils.config_loader import QoSConfig, TopicConfig
 def _build_qos_profile(config: QoSConfig) -> QoSProfile:
     reliability = ReliabilityPolicy.RELIABLE if config.reliability == "reliable" else ReliabilityPolicy.BEST_EFFORT
     durability = DurabilityPolicy.TRANSIENT_LOCAL if config.durability == "transient_local" else DurabilityPolicy.VOLATILE
-    return QoSProfile(depth=10, reliability=reliability, durability=durability)
+    history = HistoryPolicy.KEEP_ALL if config.history == "keep_all" else HistoryPolicy.KEEP_LAST
+    depth = max(1, int(config.depth)) if history == HistoryPolicy.KEEP_LAST else 10
+    return QoSProfile(
+        depth=depth,
+        reliability=reliability,
+        durability=durability,
+        history=history,
+    )
 
 
 class TelemetryIngestor(abc.ABC):

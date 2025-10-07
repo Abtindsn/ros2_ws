@@ -11,6 +11,8 @@ import yaml
 class QoSConfig:
     reliability: str = "reliable"
     durability: str = "volatile"
+    history: str = "keep_last"
+    depth: int = 10
 
 
 @dataclass
@@ -25,6 +27,8 @@ def _as_qos(data: Dict) -> QoSConfig:
     return QoSConfig(
         reliability=qos_data.get("reliability", "reliable"),
         durability=qos_data.get("durability", "volatile"),
+        history=qos_data.get("history", "keep_last"),
+        depth=int(qos_data.get("depth", 10) or 10),
     )
 
 
@@ -69,15 +73,23 @@ def load_recorder_config(path: str | Path) -> RecorderConfig:
 
     data = raw.get("recording", {})
     compression = data.get("compression", {})
+    splitting = data.get("splitting", {})
+    output_root = data.get("output_root")
+    output_directory = data.get("output_directory")
+    include_topics = data.get("topics", data.get("include_topics", [])) or []
+
+    max_bag_duration = splitting.get("max_bag_duration", data.get("max_bag_duration_s"))
+    max_bag_size = splitting.get("max_bag_size", data.get("max_bag_size_mb"))
+
     return RecorderConfig(
-        output_directory=Path(data.get("output_directory", "/tmp/rosbags")),
+        output_directory=Path(output_root or output_directory or "/tmp/rosbags"),
         storage_id=data.get("storage_id", "sqlite3"),
         serialization_format=data.get("serialization_format", "cdr"),
         compression_enabled=bool(compression.get("enabled", False)),
         compression_format=compression.get("format"),
         compression_queue_size=int(compression.get("queue_size", 1)),
-        max_bag_size_mb=data.get("max_bag_size_mb"),
-        max_bag_duration_s=data.get("max_bag_duration_s"),
+        max_bag_size_mb=int(max_bag_size) if max_bag_size is not None else None,
+        max_bag_duration_s=int(max_bag_duration) if max_bag_duration is not None else None,
         all_topics=bool(data.get("all_topics", False)),
-        include_topics=list(data.get("include_topics", [])),
+        include_topics=list(include_topics),
     )

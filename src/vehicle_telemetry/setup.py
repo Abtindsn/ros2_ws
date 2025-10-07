@@ -10,7 +10,10 @@ setup(
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
         ("share/" + package_name + "/launch", ["launch/telemetry_stack.launch.py"]),
-        ("share/" + package_name + "/config", ["config/telemetry_topics.yaml", "config/recorder.yaml"]),
+        (
+            "share/" + package_name + "/config",
+            ["config/telemetry_topics.yaml", "config/recorder.yaml", "config/rosbag_qos.yaml"],
+        ),
     ],
     install_requires=[
         "setuptools",

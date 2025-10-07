@@ -1,0 +1,24 @@
+/vehicle/imu/data:
+  reliability: best_effort
+  history: keep_last
+  depth: 10
+
+/vehicle/gps/fix:
+  reliability: best_effort
+  history: keep_last
+  depth: 10
+
+/vehicle/wheel_speed:
+  reliability: best_effort
+  history: keep_last
+  depth: 10
+
+/vehicle/can/raw:
+  reliability: best_effort
+  history: keep_last
+  depth: 10
+
+/vehicle/camera/front/image_raw:
+  reliability: best_effort
+  history: keep_last
+  depth: 5

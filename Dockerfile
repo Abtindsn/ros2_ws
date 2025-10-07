@@ -21,7 +21,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir \
-        "numpy<2" \
+        "numpy==1.24.4" \
         opencv-python-headless==4.8.1.78 \
         python-can \
         pyserial \
