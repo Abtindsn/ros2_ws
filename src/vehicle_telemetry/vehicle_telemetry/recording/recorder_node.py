@@ -1,3 +1,8 @@
+# Copyright (c) 2025 Abtin Doostan
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 from __future__ import annotations
 
 import atexit
