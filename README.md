@@ -75,8 +75,15 @@ Handy commands once the container is running:
 
 ```bash
 sudo podman logs -f vt | grep "camera frame"     # confirm camera frames arrive
-sudo podman exec vt pkill -2 -f "ros2 bag record"  # stop recorder gracefully
-sudo podman stop --time 60 vt && sudo podman rm vt
+
+# flush recorder (SIGINT) and wait until it exits
+sudo podman exec vt bash -lc 'pkill -2 -f "ros2 bag record" || true; \
+  for i in {1..30}; do pgrep -fa "ros2 bag record" >/dev/null || break; sleep 0.5; done'
+
+# stop the container
+sudo podman stop --time 60 vt
+# (optional) remove it
+sudo podman rm -f vt
 ```
 
 The helper script `scripts/run_stack_docker.sh` wraps build and launch if you prefer a single command.
