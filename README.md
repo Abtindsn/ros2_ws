@@ -159,7 +159,7 @@ Flip to real sensors by launching with `use_simulated_sources:=false`.
 
 ---
 
-Happy hacking—flip between simulation and hardware, record everything, and watch the live telemetry in your browser.
+Happy hacking—flip between simulation and hardware, record everything, and watch the live telemetry in your browser!
 
 ---
 
