@@ -20,7 +20,7 @@ setup(
     ],
     zip_safe=True,
     maintainer="Abtin Doostan",
-    maintainer_email="abtindsn@users.noreply.github.com",
+    maintainer_email="abtindsn@gmail.com",
     description="ROS2 stack for logging and replaying Formula Student telemetry data.",
     license="MIT",
     tests_require=["pytest"],

@@ -4,7 +4,7 @@
   <name>vehicle_telemetry</name>
   <version>0.1.0</version>
   <description>ROS2 data logging and replay stack for Formula Student driverless telemetry.</description>
-  <maintainer email="abtindsn@users.noreply.github.com">Abtin Doostan</maintainer>
+  <maintainer email="abtindsn@gmail.com">Abtin Doostan</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
