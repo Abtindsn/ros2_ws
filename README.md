@@ -119,6 +119,12 @@ Flip to real sensors by launching with `use_simulated_sources:=false`.
 
 ---
 
+## Dashboard Screenshot
+
+![Vehicle Telemetry dashboard](docs/assets/vehicle-telemetry-dashboard.png)
+
+---
+
 ## Recording & Bag Management
 
 - `config/recorder.yaml` controls:
