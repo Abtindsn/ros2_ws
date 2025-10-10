@@ -114,8 +114,14 @@ Flip to real sensors by launching with `use_simulated_sources:=false`.
   - `GET /health` – topic list + status
   - `GET /healthz` – simple OK probe
   - `GET /latest` / `GET /latest/{key}` – latest samples
-  - `GET /camera.jpg` – most recent camera frame (204 until a frame arrives)
+- `GET /camera.jpg` – most recent camera frame (204 until a frame arrives)
   - `HEAD /camera.jpg` – 200 if a frame is cached, else 204
+
+---
+
+## Dashboard Screenshot
+
+![Vehicle Telemetry dashboard](docs/assets/vehicle-telemetry-dashboard.png)
 
 ---
 
